@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HallOfFame.Migrations
 {
     [DbContext(typeof(HellOfFameContext))]
-    [Migration("20230326120113_InitialCreate")]
+    [Migration("20230327114402_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -61,7 +61,7 @@ namespace HallOfFame.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("PersonId")
+                    b.Property<long>("PersonId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -73,9 +73,13 @@ namespace HallOfFame.Migrations
 
             modelBuilder.Entity("HallOfFame.Models.Skills", b =>
                 {
-                    b.HasOne("HallOfFame.Models.Person", null)
+                    b.HasOne("HallOfFame.Models.Person", "Person")
                         .WithMany("Skills")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("HallOfFame.Models.Person", b =>

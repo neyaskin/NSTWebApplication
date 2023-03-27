@@ -16,9 +16,10 @@ public class PersonController : ControllerBase
     private IPersonService _personService;
     private readonly ILogger<IPersonService> _logger;
 
-    public PersonController(IPersonService personService)
+    public PersonController(IPersonService personService, ILogger<IPersonService> logger)
     {
         _personService = personService;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -41,6 +42,11 @@ public class PersonController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Метод добавления нового Person.
+    /// </summary>
+    /// <param name="personRequest">Данные Person для добавления.</param>
+    /// <returns>Статус выполнения запроса</returns>
     [HttpPost]
     [Route("person")]
     public IActionResult Create(PersonRequest personRequest)
@@ -63,6 +69,12 @@ public class PersonController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Метод обновления данных Person.
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
+    /// <param name="personRequest">Данные Person для обновления.</param>
+    /// <returns>Статус выполнения запроса</returns>
     [HttpPut]
     [Route("person/{id}")]
     public IActionResult Update(int id, PersonRequest personRequest)
@@ -89,7 +101,7 @@ public class PersonController : ControllerBase
             return new NotFoundResult();
         }
     }
-    
+
     [HttpDelete]
     [Route("person/{id}")]
     public IActionResult Delete(int id)

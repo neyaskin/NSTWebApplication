@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using Azure.Core;
+using HallOfFame.Exceptions;
 using HallOfFame.Interfaces;
 using HallOfFame.Models;
 using HallOfFame.Models.Response;
@@ -37,7 +38,7 @@ public class PersonService : IPersonService
         var person = _context.Persons.Include(w=>w.Skills).FirstOrDefault(p => p.Id == id);
         if (person is null)
         {
-            return null;
+            throw new NotFoundException();
         }
         PersonResponse personResponse = new PersonResponse()
         {
@@ -79,7 +80,7 @@ public class PersonService : IPersonService
     {
         Person person = _context.Persons.Include(q=>q.Skills).FirstOrDefault(q => q.Id == id);
         if (person is null)
-            return;
+            throw new NotFoundException();
         person.Name = personRequest.Name;
         person.DisplayName = personRequest.DisplayName;
         List<Skills> newSkills = personRequest.Skills.Select(q => new Skills() { Name = q.Name, Level = q.Level }).ToList();
@@ -91,7 +92,7 @@ public class PersonService : IPersonService
     {
         PersonResponse personResponse = Get(id);
         if (personResponse is null)
-            return;
+            throw new NotFoundException();
         _context.Persons.Remove(_context.Persons.First(q=>q.Id == id));
         _context.SaveChanges();
     }

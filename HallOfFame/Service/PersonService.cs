@@ -20,6 +20,10 @@ public class PersonService : IPersonService
         _context = context;
     }
 
+    /// <summary>
+    /// Метод для получения данных о всех Person.
+    /// </summary>
+    /// <returns>Массив объектов типа PersonResponse.</returns>
     public List<PersonResponse> GetAll()
     {
         var persons = _context.Persons.Include(q=>q.Skills).ToList();
@@ -32,7 +36,13 @@ public class PersonService : IPersonService
 
         return personResponses;
     }
-
+    
+    /// <summary>
+    /// Метод для получения данных конкретного Person.
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
+    /// <returns>Объект типа PersonResponse.</returns>
+    /// <exception cref="NotFoundException"></exception>
     public PersonResponse Get(int id)
     {
         var person = _context.Persons.Include(w=>w.Skills).FirstOrDefault(p => p.Id == id);
@@ -54,6 +64,11 @@ public class PersonService : IPersonService
         return personResponse;
     } 
 
+    /// <summary>
+    /// Метод для добавления нового Person в БД
+    /// </summary>
+    /// <param name="personRequest"></param>
+    /// <returns>Объект типа PersonResponse</returns>
     public PersonResponse Add(PersonRequest personRequest)
     {
         Person person = new Person()
@@ -76,6 +91,13 @@ public class PersonService : IPersonService
 
         return personResponse;
     }
+    
+    /// <summary>
+    /// Метод для обновления данных Person
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
+    /// <param name="personRequest">Данные для обновления.</param>
+    /// <exception cref="NotFoundException"></exception>
     public void Update(int id, PersonRequest personRequest)
     {
         Person person = _context.Persons.Include(q=>q.Skills).FirstOrDefault(q => q.Id == id);
@@ -88,6 +110,11 @@ public class PersonService : IPersonService
         _context.SaveChanges();
     } 
     
+    /// <summary>
+    /// Метод для удаления Person
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
+    /// <exception cref="NotFoundException"></exception>
     public void Delete(int id)
     {
         PersonResponse personResponse = Get(id);

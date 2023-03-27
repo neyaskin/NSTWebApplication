@@ -22,10 +22,19 @@ public class PersonController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Метод получения данных о всех Person.
+    /// </summary>
+    /// <returns>Возвращает данные о всех Person.</returns>
     [HttpGet]
     [Route("persons")]
     public ActionResult<List<PersonResponse>> GetAll() => _personService.GetAll();
 
+    /// <summary>
+    /// Метод получения данных конретного Person.
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
+    /// <returns>Возвращает данные конретного Person.</returns>
     [HttpGet]
     [Route("person/{id}")]
     public ActionResult<PersonResponse> Get(int id)
@@ -46,7 +55,7 @@ public class PersonController : ControllerBase
     /// Метод добавления нового Person.
     /// </summary>
     /// <param name="personRequest">Данные Person для добавления.</param>
-    /// <returns>Статус выполнения запроса</returns>
+    /// <returns>Статус выполнения запроса.</returns>
     [HttpPost]
     [Route("person")]
     public IActionResult Create(PersonRequest personRequest)
@@ -74,7 +83,7 @@ public class PersonController : ControllerBase
     /// </summary>
     /// <param name="id">Идентификатор.</param>
     /// <param name="personRequest">Данные Person для обновления.</param>
-    /// <returns>Статус выполнения запроса</returns>
+    /// <returns>Статус выполнения запроса.</returns>
     [HttpPut]
     [Route("person/{id}")]
     public IActionResult Update(int id, PersonRequest personRequest)
@@ -102,6 +111,11 @@ public class PersonController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Метод удаления Person.
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
+    /// <returns>Статус выполнения запроса.</returns>
     [HttpDelete]
     [Route("person/{id}")]
     public IActionResult Delete(int id)
